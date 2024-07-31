@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  tailscale-passwords:
+    image: tailscale/tailscale:latest
+    container_name: tailscale-passwords
+    hostname: passwords
+    volumes:
+      - ./tailscale/state:/var/lib/tailscale
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_EXTRA_ARGS=${TS_EXTRA_ARGS}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: unless-stopped
