@@ -17,3 +17,13 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     restart: always
+  caddy:
+    image: caddy:2.6.2-alpine
+    container_name: caddy 
+    restart: always
+    depends_on:
+      - tailscale-doubeltap
+    network_mode: service:tailscale-doubeltap
+    volumes:
+      - /caddy/caddyfile:/etc/caddy/Caddyfile
+      - /caddy/certs:/certs
