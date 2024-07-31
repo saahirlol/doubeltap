@@ -23,10 +23,7 @@ if [ -z "$TS_AUTHKEY" ]; then
     exit 1
 fi
 
-# Add login server to TS_EXTRA_ARGS if provided
-if [ -n "$TS_LOGIN_SERVER" ]; then
-    TS_EXTRA_ARGS="--login-server=$TS_LOGIN_SERVER"
-fi
+
 
 # Start Docker Compose
 docker-compose up
