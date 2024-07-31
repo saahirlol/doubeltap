@@ -59,7 +59,6 @@ services:
     privileged: true
     image: ghcr.io/saahirlol/doubeltap:main
     container_name: doubeltap
-    hostname: ${TS_HOSTNAME}
     volumes:
       - ./tailscale/state:/tailscale/state
     environment:
