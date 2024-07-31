@@ -1,11 +1,12 @@
 # Doubeltap
 
-Doubeltap is a Docker-in-Docker (DinD) container that runs a Debian Bullseye environment with Docker Compose.
+Doubeltap is a Docker-in-Docker (DinD) container that runs a Debian Bullseye environment with Docker Compose. It includes a Tailscale service configured via Docker Compose, where the hostname and authentication key can be set from the host, and the login server configuration and extra arguments are optional.
 
 ## Features
 
 - Docker-in-Docker setup
-
+- Optional login server for Tailscale
+- Optional extra arguments for Tailscale
 
 ## Requirements
 
@@ -13,6 +14,11 @@ Doubeltap is a Docker-in-Docker (DinD) container that runs a Debian Bullseye env
 
 ## Usage
 
+### Environment Variables
+
+- `TS_HOSTNAME`: The hostname for the Tailscale service (mandatory).
+- `TS_AUTHKEY`: Your Tailscale authentication key (mandatory).
+- `TS_EXTRA_ARGS`: Extra Arguments i.e Headscale (optional).
 
 ### Pulling the Docker Image
 
@@ -24,12 +30,17 @@ docker pull ghcr.io/saahirlol/doubeltap:main
 
 ### Running the Docker Container
 
-To run the Docker container with the necessary privileges  use the following command:
+To run the Docker container with the necessary privileges and environment variables, use the following command:
 
 ```sh
-docker run --privileged --name doubeltap -v ./data:/compose --restart always ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap --restart unless-stopped -v ./tailscale/state:/tailscale/state -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here  -e TS_EXTRA_ARGS=--advertise-tags=tag:container --login-server=https://yourserver.here -it ghcr.io/saahirlol/doubeltap:main
 ```
 
+If you do not want to specify extra arguments, you can omit the `TS_EXTRA_ARGS` environment variable:
+
+```sh
+docker run --privileged --name doubeltap --restart unless-stopped -v ./tailscale/state:/tailscale/state -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here -it ghcr.io/saahirlol/doubeltap:main
+```
 
 ### Example Docker Compose File
 
@@ -44,14 +55,18 @@ services:
     image: ghcr.io/saahirlol/doubeltap:main
     container_name: doubeltap
     volumes:
-      - ./data:/compose
-    restart: always
+      - ./tailscale/state:/tailscale/state
+    environment:
+      - TS_HOSTNAME=${TS_HOSTNAME}
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_EXTRA_ARGS=${TS_EXTRA_ARGS} # Optional
+    restart: unless-stopped
 ```
 
 ### Files
 
 - `Dockerfile`: Defines the Docker image setup.
-
+- `docker-compose.yml`: Docker Compose configuration for the Tailscale service.
 - `entrypoint.sh`: Entrypoint script to start the Docker daemon and Tailscale service.
 
 ## Explanation of `entrypoint.sh`
@@ -68,6 +83,12 @@ The `entrypoint.sh` script performs the following tasks:
 ## Example Environment File (`tailscale.env`)
 
 Here is an example of the environment file that can be used to provide the Tailscale configurations:
+
+```env
+TS_HOSTNAME=test
+TS_AUTHKEY=your_authkey_here
+TS_EXTRA_ARGS=--advertise-tags=tag:container --login-server=https://yourserver.here # Optional
+```
 
 ## License
 
