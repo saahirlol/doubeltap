@@ -6,7 +6,7 @@ services:
     container_name: tailscale-${TS_HOSTNAME}
     hostname: ${TS_HOSTNAME}
     volumes:
-      - ./tailscale/state:/var/lib/tailscale
+      - /tailscale/state:/var/lib/tailscale
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_EXTRA_ARGS=${TS_EXTRA_ARGS}

@@ -38,13 +38,13 @@ docker pull ghcr.io/saahirlol/doubeltap:main
 To run the Docker container with the necessary privileges and environment variables, use the following command:
 
 ```sh
-docker run --privileged --name doubeltap --restart unless-stopped -v /network-node:/network-node -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here -e TS_EXTRA_ARGS="--advertise-tags=tag:container" -e TS_LOGIN_SERVER=https://yourserver.here -it ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap --restart unless-stopped -v ./tailscale/state:/tailscale/state -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here -e TS_EXTRA_ARGS="--advertise-tags=tag:container" -e TS_LOGIN_SERVER=https://yourserver.here -it ghcr.io/saahirlol/doubeltap:main
 ```
 
 If you do not want to specify the login server or extra arguments, you can omit the `TS_LOGIN_SERVER` and `TS_EXTRA_ARGS` environment variables:
 
 ```sh
-docker run --privileged --name doubeltap --restart unless-stopped -v /network-node:/network-node -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here -it ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap --restart unless-stopped -v ./tailscale/state:/tailscale/state -e TS_HOSTNAME=passwords -e TS_AUTHKEY=your_authkey_here -it ghcr.io/saahirlol/doubeltap:main
 ```
 
 ### Example Docker Compose File
@@ -60,7 +60,7 @@ services:
     container_name: tailscale-passwords
     hostname: ${TS_HOSTNAME}
     volumes:
-      - ./tailscale/state:/var/lib/tailscale
+      - ./tailscale/state:/tailscale/state
     environment:
       - TS_HOSTNAME=${TS_HOSTNAME}
       - TS_AUTHKEY=${TS_AUTHKEY}
