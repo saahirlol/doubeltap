@@ -9,24 +9,12 @@ until docker info >/dev/null 2>&1; do
 done
 
 # Navigate to the directory containing the Docker Compose file
-cd /network-node
-
-# Ensure TS_HOSTNAME is provided
-if [ -z "$TS_HOSTNAME" ]; then
-    echo "TS_HOSTNAME is not set. Exiting."
-    exit 1
-fi
-
-# Ensure TS_AUTHKEY is provided
-if [ -z "$TS_AUTHKEY" ]; then
-    echo "TS_AUTHKEY is not set. Exiting."
-    exit 1
-fi
+cd /compose
 
 
 
 # Start Docker Compose
-docker-compose up
+docker-compose up -d
 
 # Keep the container running
 while true; do
