@@ -55,9 +55,10 @@ Here is an example `docker-compose.yml` file that you can use:
 version: '3.8'
 
 services:
-  tailscale-passwords:
+  doubeltap:
+    privileged: true
     image: ghcr.io/saahirlol/doubeltap:main
-    container_name: tailscale-passwords
+    container_name: doubeltap
     hostname: ${TS_HOSTNAME}
     volumes:
       - ./tailscale/state:/tailscale/state
