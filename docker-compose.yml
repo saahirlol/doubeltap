@@ -3,8 +3,8 @@ version: '3.8'
 services:
   tailscale-passwords:
     image: tailscale/tailscale:latest
-    container_name: tailscale-passwords
-    hostname: passwords
+    container_name: tailscale-${TS_HOSTNAME}
+    hostname: ${TS_HOSTNAME}
     volumes:
       - ./tailscale/state:/var/lib/tailscale
     environment:
