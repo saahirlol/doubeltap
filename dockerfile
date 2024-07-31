@@ -13,7 +13,7 @@ RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-
     && chmod +x /usr/local/bin/docker-compose
 
 # Copy the Docker Compose file into the image
-COPY docker-compose.yml /network-node/docker-compose.yml
+COPY /c/docker-compose.yml /network-node/docker-compose.yml
 
 # Copy the entrypoint script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
