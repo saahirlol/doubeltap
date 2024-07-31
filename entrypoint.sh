@@ -29,7 +29,7 @@ if [ -n "$TS_LOGIN_SERVER" ]; then
 fi
 
 # Start Docker Compose
-docker-compose up -it
+docker-compose up -d
 
 # Keep the container running
 while true; do
