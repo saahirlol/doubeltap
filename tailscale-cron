@@ -1,0 +1,2 @@
+# Restart the tailscale-doubeltap service every 2 hours
+0 */2 * * * /usr/local/bin/docker-compose -f /network-node/docker-compose.yml restart tailscale-doubeltap

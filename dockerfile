@@ -6,7 +6,9 @@ RUN apk add --no-cache \
     bash \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    busybox-suid \
+    crond
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
@@ -18,6 +20,9 @@ COPY /c/docker-compose.yml /network-node/docker-compose.yml
 # Copy the entrypoint script
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Add the cron job
+COPY tailscale-cron /etc/crontabs/root
 
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -8,6 +8,9 @@ until docker info >/dev/null 2>&1; do
     sleep 1
 done
 
+# Start the cron service
+crond
+
 # Navigate to the directory containing the Docker Compose file
 cd /network-node
 
@@ -23,10 +26,8 @@ if [ -z "$TS_AUTHKEY" ]; then
     exit 1
 fi
 
-
-
 # Start Docker Compose
-docker-compose up
+docker-compose up &
 
 # Keep the container running
 while true; do
