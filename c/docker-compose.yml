@@ -27,4 +27,3 @@ services:
     volumes:
       - /caddy/caddyfile:/etc/caddy/Caddyfile
       - /caddy/certs:/certs
-      - /caddy/files:/files
