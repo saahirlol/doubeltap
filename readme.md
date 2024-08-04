@@ -18,7 +18,7 @@ Doubeltap is a Docker-in-Docker (DinD) container that runs a Debian Bullseye env
 
 - `TS_HOSTNAME`: The hostname for the Tailscale service (mandatory).
 - `TS_AUTHKEY`: Your Tailscale authentication key (mandatory).
-- `TS_EXTRA_ARGS`: Extra Arguments i.e Headscale (optional).
+- `HS`: Headscale Login Server (optional).
 
 ### Pulling the Docker Image
 
