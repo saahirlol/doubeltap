@@ -27,7 +27,7 @@ fi
 until /app/tailscale up \
     --login-server=${HS} \
     --authkey=${TAILSCALE_AUTH_KEY} \
-    --hostname=${HOSTNAME} \
+    --hostname=${TS_HOSTNAME} \
     --tun=userspace-networking \
     --state=/tailscale/state  \
 do
