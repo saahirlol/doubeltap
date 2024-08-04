@@ -2,12 +2,6 @@
 
 echo 'Starting up Tailscale...'
 
-# Load the xt_mark module for marking packets
-if ! modprobe xt_mark; then
-    echo "Failed to load xt_mark module."
-    exit 1
-fi
-
 # Enable IPv4 and IPv6 forwarding
 echo 'Enabling IP forwarding...'
 echo 'net.ipv4.ip_forward = 1' | tee -a /etc/sysctl.conf
@@ -16,19 +10,23 @@ sysctl -p /etc/sysctl.conf
 
 # Configure NAT for IPv4 and IPv6
 echo 'Configuring NAT...'
-if ! iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; then
-    echo "Failed to set IPv4 NAT."
-    exit 1
+if iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; then
+    echo "IPv4 NAT configured successfully."
+else
+    echo "Failed to set IPv4 NAT. Are iptables installed and configured correctly?"
 fi
 
-if ! ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; then
-    echo "Failed to set IPv6 NAT."
-    exit 1
+if ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; then
+    echo "IPv6 NAT configured successfully."
+else
+    echo "Failed to set IPv6 NAT. Are ip6tables installed and configured correctly?"
 fi
 
 # Start tailscaled with userspace networking
 echo 'Starting tailscaled...'
-if ! /app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 & then
+if /app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 & then
+    echo "tailscaled started successfully."
+else
     echo "Failed to start tailscaled."
     exit 1
 fi
@@ -57,32 +55,15 @@ done
 echo 'Tailscale started successfully.'
 
 echo 'Starting Squid...'
-if ! squid & then
+if squid & then
+    echo "Squid started successfully."
+else
     echo "Failed to start Squid."
     exit 1
 fi
-echo 'Squid started'
 
 echo 'Starting Dante...'
-if ! sockd & then
-    echo "Failed to start Dante."
-    exit 1
-fi
-echo 'Dante started'
-
-echo 'Starting dnsmasq...'
-if ! dnsmasq & then
-    echo "Failed to start dnsmasq."
-    exit 1
-fi
-echo 'Dnsmasq started'
-
-echo 'Starting Caddy...'
-if ! caddy run --config /caddy/caddyfile --adapter caddyfile & then
-    echo "Failed to start Caddy."
-    exit 1
-fi
-echo 'Caddy started'
-
-# Keep script running
-sleep infinity
+if sockd & then
+    echo "Dante started successfully."
+else
+    echo "Failed to start Dante
