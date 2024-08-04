@@ -46,7 +46,6 @@ until /app/tailscale up \
     --authkey="${TS_AUTHKEY}" \
     --hostname="${TS_HOSTNAME}" \
     --netfilter-mode=off \
-    --state=/tailscale/state
 do
     echo "Retrying Tailscale up..."
     sleep 1
