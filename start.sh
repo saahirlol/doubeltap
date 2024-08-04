@@ -65,4 +65,6 @@ echo 'Starting Dante...'
 if sockd & then
     echo "Dante started successfully."
 else
-    echo "Failed to start Dante
+    echo "Failed to start Dante."
+    exit 1
+fi
