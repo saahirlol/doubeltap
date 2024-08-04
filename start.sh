@@ -69,3 +69,4 @@ else
 fi
 
 echo 'All services started successfully.'
+sleep infinity
