@@ -33,10 +33,10 @@ docker pull ghcr.io/saahirlol/doubeltap:main
 To run the Docker container with the necessary privileges and environment variables, use the following command:
 
 ```sh
-docker run --privileged --name doubeltap -v ./tailscale/state:/tailscale/state -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e TS_EXTRA_ARGS=${TS_EXTRA_ARGS} --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap -v ./tailscale/state:/tailscale/state -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e HS=${HS} --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
 ```
 
-If you do not want to specify extra arguments, you can omit the `TS_EXTRA_ARGS` environment variable:
+If you do not want to specify extra arguments, you can omit the `HS` environment variable:
 
 ```sh
 docker run --privileged --name doubeltap -v ./tailscale/state:/tailscale/state -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
@@ -60,7 +60,7 @@ services:
     environment:
       - TS_HOSTNAME=${TS_HOSTNAME}
       - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_EXTRA_ARGS=${TS_EXTRA_ARGS} # Optional
+      - HS=${HS} # Optional
     restart: unless-stopped
 ```
 
@@ -88,7 +88,7 @@ Here is an example of the environment file that can be used to provide the Tails
 ```env
 TS_HOSTNAME=test
 TS_AUTHKEY=your_authkey_here
-TS_EXTRA_ARGS=--advertise-tags=tag:container --login-server=https://yourserver.here # Optional
+HS=https://yourserver.here:443
 ```
 
 ## License
