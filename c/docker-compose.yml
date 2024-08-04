@@ -5,7 +5,6 @@ services:
     image: tailscale/tailscale:latest
     container_name: tailscale-${TS_HOSTNAME}
     hostname: ${TS_HOSTNAME}
-    network_mode: host
     volumes:
       - /tailscale/state:/var/lib/tailscale
     environment:
@@ -13,9 +12,6 @@ services:
       - TS_EXTRA_ARGS=${TS_EXTRA_ARGS}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=true
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
     restart: always
   caddy:
     image: caddy:2.6.2-alpine
