@@ -20,7 +20,6 @@ RUN apk update \
       dante-server \
       python3 \
       dnsmasq \
-      caddy \
     && rm -rf /var/cache/apk/*
 RUN mkdir -p \
       /var/run/tailscale \
