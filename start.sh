@@ -45,8 +45,7 @@ until /app/tailscale up \
     --login-server="${HS}" \
     --authkey="${TS_AUTHKEY}" \
     --hostname="${TS_HOSTNAME}" \
-    --netfilter-mode=off \
-do
+    --netfilter-mode=off; do
     echo "Retrying Tailscale up..."
     sleep 1
 done
@@ -68,3 +67,5 @@ else
     echo "Failed to start Dante."
     exit 1
 fi
+
+echo 'All services started successfully.'
