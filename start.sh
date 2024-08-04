@@ -15,7 +15,7 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Start tailscaled
-/app/tailscaled --verbose=1 --port 41641 &
+/app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 &
 sleep 5
 
 if [ ! -S /var/run/tailscale/tailscaled.sock ]; then
@@ -28,7 +28,6 @@ until /app/tailscale up \
     --login-server=${HS} \
     --authkey=${TS_AUTHKEY} \
     --hostname=${TS_HOSTNAME} \
-    --tun=userspace-networking \
     --state=/tailscale/state
 do
     sleep 0.1
