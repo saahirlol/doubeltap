@@ -33,13 +33,13 @@ docker pull ghcr.io/saahirlol/doubeltap:main
 To run the Docker container with the necessary privileges and environment variables, use the following command:
 
 ```sh
-docker run --privileged --name doubeltap -v ./tailscale/state:/tailscale/state -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e HS=${HS} --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap -v ./tailscale/:/var/lib/tailscale -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e HS=${HS} --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
 ```
 
 If you do not want to specify extra arguments, you can omit the `HS` environment variable:
 
 ```sh
-docker run --privileged --name doubeltap -v ./tailscale/state:/tailscale/state -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
+docker run --privileged --name doubeltap -v ./tailscale/:/var/lib/tailscale -v ./caddy:/caddy -e TS_HOSTNAME=${TS_HOSTNAME} -e TS_AUTHKEY=${TS_AUTHKEY} -e --restart unless-stopped ghcr.io/saahirlol/doubeltap:main
 ```
 
 ### Example Docker Compose File
@@ -55,7 +55,7 @@ services:
     image: ghcr.io/saahirlol/doubeltap:main
     container_name: doubeltap
     volumes:
-      - ./tailscale/state:/tailscale/state
+      - ./tailscale/:/var/lib/tailscale
       - ./caddy:/caddy
     environment:
       - TS_HOSTNAME=${TS_HOSTNAME}
