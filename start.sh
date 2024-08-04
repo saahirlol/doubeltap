@@ -14,7 +14,7 @@ sysctl -p /etc/sysctl.conf
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-# Start tailscaled
+# Start tailscaled with userspace networking
 /app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 &
 sleep 5
 
@@ -28,6 +28,7 @@ until /app/tailscale up \
     --login-server=${HS} \
     --authkey=${TS_AUTHKEY} \
     --hostname=${TS_HOSTNAME} \
+    --netfilter-mode=off \
     --state=/tailscale/state
 do
     sleep 0.1
