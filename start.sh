@@ -27,9 +27,9 @@ fi
 until /app/tailscale up \
     --login-server=${HS} \
     --authkey=${TAILSCALE_AUTH_KEY} \
-    --hostname=flyio-${HOSTNAME} \
+    --hostname=${HOSTNAME} \
     --tun=userspace-networking \
-    --state=/var/lib/tailscale/  \
+    --state=/tailscale/state  \
 do
     sleep 0.1
 done
@@ -56,7 +56,7 @@ echo 'Dnsmasq started'
 
 echo 'Starting caddy...'
 
-caddy run --config /etc/caddy/Caddyfile --adapter caddyfile  &
+caddy run --config /caddy/caddyfile --adapter caddyfile  &
 
 echo 'Caddy started'
 
