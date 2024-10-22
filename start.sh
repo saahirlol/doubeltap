@@ -24,7 +24,7 @@ fi
 
 # Start tailscaled with userspace networking
 echo 'Starting tailscaled...'
-if /app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 & then
+if /app/tailscaled --tun=userspace-networking --verbose=1 --port 41641 --outbound-http-proxy-listen=localhost:1055 & then
     echo "tailscaled started successfully."
 else
     echo "Failed to start tailscaled."
